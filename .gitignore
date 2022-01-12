@@ -1,3 +1,8 @@
+# misc
+readFile.js
+postegres.js
+mongoose.js
+
 # Logs
 logs
 *.log
