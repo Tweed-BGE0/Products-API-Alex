@@ -20,13 +20,10 @@ const removeQuotes = (string) => { return string.replace(/"+/g, '')}
 // FORMAT PRODUCT DATA AND ADD TO DB
 const addProducts = (csvFile) => {
   fs.readFile(csvFile, 'utf8', function (err,data) {
-
     if(err) console.log(err);
     let products = [];
     let rows = data.split('\n');
-
     rows.forEach((row) => {
-
       let column = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
       let _id = Number(column[0])
       let valueCheck = isNaN(_id)
@@ -92,6 +89,6 @@ const addPhotos = (csvFile) => {
 
 // addPhotos('/Users/alexanderhuerta/hr/sdc/Products-API-Alex/photos/2.csv')
 
-// addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
 
-db.getProduct(1);
+// db.getProduct(1);
+db.makeAndSaveProduct(1)
