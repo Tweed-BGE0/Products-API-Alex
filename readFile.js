@@ -7,37 +7,27 @@ const removeQuotes = (string) => { return string.replace(/"+/g, '')}
 //Async split csv into smaller files. contain all within same directory
 // fs.split -l 1000 product.csv new
 
-
-fs.readdir(`${__dirname}/products`, (err, files) => {
-  if (err)
-    console.log(err);
-  else {
-    files.forEach((file) => {
-      addProd(`${__dirname}/products/${file}`);
-    })
-  }
-})
-
+// fs.readdir(`${__dirname}/products`, (err, files) => {
+//   if (err)
+//     console.log(err);
+//   else {
+//     files.forEach((file) => {
+//       addProducts(`${__dirname}/products/${file}`);
+//     })
+//   }
+// })
 
 // FORMAT PRODUCT DATA AND ADD TO DB
-const addProd = (csvFile) => {
+const addProducts = (csvFile) => {
   fs.readFile(csvFile, 'utf8', function (err,data) {
 
     if(err) console.log(err);
     let products = [];
-
     let rows = data.split('\n');
-    // rows = rows.slice(1);
 
     rows.forEach((row) => {
 
       let column = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-
-      // if(!readHeader) {
-      //   readHeader = true;
-      // }
-      // if(column[0] === 'id' || column[0] === NaN) column[0] = 0;
-      // if(column[5] === 'default_price'|| column[0] === NaN) column[5] = '0';
       let _id = Number(column[0])
       let valueCheck = isNaN(_id)
 
@@ -47,8 +37,7 @@ const addProd = (csvFile) => {
         let _description = removeQuotes(column[3])
         let _category = removeQuotes(column[4])
         let _default_price = column[5]
-        //  var default_price = column[5].replace(‘“default_price”: ‘, ‘’)
-        // let _default_price = split(column[5]).replace('"default_price": ','');
+
          let product = {
            id: _id,
            name: _name,
@@ -63,8 +52,46 @@ const addProd = (csvFile) => {
     })
      db.addProductToDatabase(products)
   });
-
 }
 
+const addPhotos = (csvFile) => {
+  fs.readFile(csvFile, 'utf8', function (err,data) {
+
+    if(err) console.log(err);
+    let photos = [];
+    let rows = data.split('\n');
+
+    rows.forEach((row) => {
+      console.log('before', row);
+      // let column = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+      let column = row.split(',')
+      console.log('after', column)
+      let _id = Number(column[0])
+      let _style_id = Number(column[1])
+      let valueCheck = isNaN(_id)
+      if(!valueCheck) {
+
+        let _url = removeQuotes(column[2])
+        let _thumbnail_url = removeQuotes(column[3])
 
 
+         let photo = {
+           id: _id,
+           style_id: _style_id,
+           url: _url,
+           thumbnail_url: _thumbnail_url
+
+         }
+         photos.push(photo)
+      }
+
+    })
+     db.addPhotoToDatabase(photos)
+  });
+}
+
+// addPhotos('/Users/alexanderhuerta/hr/sdc/Products-API-Alex/photos/2.csv')
+
+// addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
+
+db.getProduct(1);
