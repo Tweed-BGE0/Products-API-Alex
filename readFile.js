@@ -27,7 +27,7 @@ const addProd = (csvFile) => {
     let products = [];
 
     let rows = data.split('\n');
-    rows=rows.slice(1);
+    rows = rows.slice(1);
 
     rows.forEach((row) => {
       let column = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
