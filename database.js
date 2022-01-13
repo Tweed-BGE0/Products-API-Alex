@@ -37,13 +37,15 @@ const productSchema = new mongoose.Schema({
   name: String,
   description: String,
   category: String,
-  default_price: Number
+  default_price: String
+
+
 });
 const photoSchema = new mongoose.Schema({
   id: Number,
   style_id: Number,
   url: String,
-  thumbnail_url: String,
+  thumbnail_url: String
 })
 
 
@@ -74,8 +76,6 @@ const Photo = mongoose.model('Photo', photoSchema)
 // .catch(err => console.log(err))
 
 
-
-
 const addProductToDatabase = (products) => {
   Product.insertMany(products)
   .then((docs) => {
@@ -85,5 +85,6 @@ const addProductToDatabase = (products) => {
   })
 }
 
+module.exports.addProductToDatabase = addProductToDatabase;
 
-module.exports.addFeatureToDatabase = addFeatureToDatabase;
+
