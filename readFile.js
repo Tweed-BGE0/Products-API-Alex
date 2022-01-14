@@ -4,20 +4,8 @@ const db = require('./database.js')
 
 const removeQuotes = (string) => { return string.replace(/"+/g, '')}
 
-//Async split csv into smaller files. contain all within same directory
-// fs.split -l 1000 product.csv new
-
-// fs.readdir(`${__dirname}/products`, (err, files) => {
-//   if (err)
-//     console.log(err);
-//   else {
-//     files.forEach((file) => {
-//       addProducts(`${__dirname}/products/${file}`);
-//     })
-//   }
-// })
-
 // FORMAT PRODUCT DATA AND ADD TO DB
+  //ONLY NEED TO RUN ONCE
 const addProducts = (csvFile) => {
   fs.readFile(csvFile, 'utf8', function (err,data) {
     if(err) console.log(err);
@@ -51,43 +39,76 @@ const addProducts = (csvFile) => {
   });
 }
 
-const addPhotos = (csvFile) => {
-  fs.readFile(csvFile, 'utf8', function (err,data) {
 
-    if(err) console.log(err);
-    let photos = [];
-    let rows = data.split('\n');
-
-    rows.forEach((row) => {
-      console.log('before', row);
-      // let column = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-      let column = row.split(',')
-      console.log('after', column)
-      let _id = Number(column[0])
-      let _style_id = Number(column[1])
-      let valueCheck = isNaN(_id)
-      if(!valueCheck) {
-
-        let _url = removeQuotes(column[2])
-        let _thumbnail_url = removeQuotes(column[3])
+// addProducts('/Users/alexanderhuerta/hr/sdc/Products-API-Alex/products/2.csv')
+// db.makeAndSaveProduct(1)
 
 
-         let photo = {
-           id: _id,
-           style_id: _style_id,
-           url: _url,
-           thumbnail_url: _thumbnail_url
-
-         }
-         photos.push(photo)
-      }
-
-    })
-     db.addPhotoToDatabase(photos)
-  });
+for(let i = 0; i < 8; i++) {
+  db.makeAndSaveProduct(i)
 }
 
+
+
+
+
+
+
+
+
+//FORMAT PHOTO FILE AND ADD TO DB
+// const addPhotos = (csvFile) => {
+//   fs.readFile(csvFile, 'utf8', function (err,data) {
+
+//     if(err) console.log(err);
+//     let photos = [];
+//     let rows = data.split('\n');
+
+//     rows.forEach((row) => {
+//       console.log('before', row);
+//       // let column = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+//       let column = row.split(',')
+//       console.log('after', column)
+//       let _id = Number(column[0])
+//       let _style_id = Number(column[1])
+//       let valueCheck = isNaN(_id)
+//       if(!valueCheck) {
+
+//         let _url = removeQuotes(column[2])
+//         let _thumbnail_url = removeQuotes(column[3])
+
+
+//          let photo = {
+//            id: _id,
+//            style_id: _style_id,
+//            url: _url,
+//            thumbnail_url: _thumbnail_url
+
+//          }
+//          photos.push(photo)
+//       }
+
+//     })
+//      db.addPhotoToDatabase(photos)
+//   });
+// }
 // addPhotos('/Users/alexanderhuerta/hr/sdc/Products-API-Alex/photos/2.csv')
 
 
-db.makeAndSaveProduct(1)
+
+
+
+
+
+//SPLIT LARGE FILE INTO SMALL FILES IN SAME DIRECTORY AND LOOP THROUGH, READING EACH
+// fs.split -l 1000 product.csv new
+
+// fs.readdir(`${__dirname}/products`, (err, files) => {
+//   if (err)
+//     console.log(err);
+//   else {
+//     files.forEach((file) => {
+//       addProducts(`${__dirname}/products/${file}`);
+//     })
+//   }
+// })
