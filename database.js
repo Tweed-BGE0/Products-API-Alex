@@ -157,3 +157,35 @@ module.exports.joinProductAndFeatures = joinProductAndFeatures;
 // Photo.find().limit(2)
 // .then(data => console.log('Photo'))
 // .catch(err => console.log(err))
+
+
+
+
+//AGGREGATION FUNCTIONS FOR THE MONGO INSTANCE TERMINAL
+
+
+// db.products.aggregate([{
+//   $lookup: {
+//           from: "features",
+//           localField: "id",
+//           foreignField: "id",
+//           let: {
+//             feature: "$feature",
+//             value: "$value"
+//           }
+//           as: "copies_sold"
+//       },
+//   $merge : { into : "newCollection" }
+// }])
+
+// db.products.aggregate([
+//   {
+//   $lookup: {
+//           from: "features",
+//           localField: "id",
+//           foreignField: "product_id",
+//           as: "features"
+//   }
+//   $merge : { into : "newCollection" }
+//   }
+// ])

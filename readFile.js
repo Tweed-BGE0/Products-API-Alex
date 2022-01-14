@@ -51,11 +51,11 @@ const addProducts = (csvFile) => {
 // 1
 
 
-for(let i = 1; i <100000 ; i++) {
+// for(let i = 1; i <100000 ; i++) {
 
-  db.joinProductAndFeatures(i)
-}
-console.log('done with 1,000,011')
+//   db.joinProductAndFeatures(i)
+// }
+// console.log('done with 1,000,011')
 
 
 
