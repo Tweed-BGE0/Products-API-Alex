@@ -6,20 +6,18 @@ async function main() {
   await mongoose.connect('mongodb://localhost:27017/productOverview');
 }
 
-const product2Schema = new mongoose.Schema({
+//SCHEMAS
+const ProductSchema = new mongoose.Schema({
   id: Number,
   name: String,
   slogan: String,
   description: String,
   category: String,
   default_price: String,
-  // features: [{ feature: String, value: String }]
-
   features: Array
-  // features: {type: Array, "default": []}
+  // features: [{ feature: String, value: String }]
 });
-
-const productSchema = new mongoose.Schema({
+const BasicProductSchema = new mongoose.Schema({
   id: Number,
   name: String,
   slogan: String,
@@ -33,9 +31,6 @@ const featureSchema = new mongoose.Schema({
   feature: String,
   value: String
 });
-
-
-
 const styleSchema = new mongoose.Schema({
   id: Number,
   product_id: Number,
@@ -62,22 +57,24 @@ const relatedItemSchema = new mongoose.Schema({
   related_product_id: Number
 });
 
-const Product2 = mongoose.model('Product2', product2Schema)
-const Product = mongoose.model('Product', productSchema)
+//MODELS
+const Product = mongoose.model('Product', ProductSchema)
+const BasicProduct = mongoose.model('BasicProduct', BasicProductSchema)
 const Feature = mongoose.model('Feature', featureSchema)
+
 const Style = mongoose.model('Style', styleSchema)
 const Photo = mongoose.model('Photo', photoSchema)
 const Sku = mongoose.model('Sku', skuSchema)
-const RelatedItem = mongoose.model('RelatedItem', relatedItemSchema)
 
+const RelatedItem = mongoose.model('RelatedItem', relatedItemSchema)
 
 
 //QUERY PRODUCT AND FEATURE COLLECTION
   //COMBINE TO FORMAT FINAL_PRODUCT OBJECT
     //ADD TO 3RD COLLECTION
       //DROP PRODUCT AND FEATURE COLLECTIONS
-const makeAndSaveProduct = (productId) => {
-  Product.find({'id': productId})
+const joinProductAndFeatures = (productId) => {
+  BasicProduct.find({'id': productId})
   .then((product) => {
     let productObject = product[0];
     productFeatures = [];
@@ -97,7 +94,7 @@ const makeAndSaveProduct = (productId) => {
           default_price: productObject.default_price,
           features: productFeatures
         }
-        let newProduct = new Product2(combinedProductSchema)
+        let newProduct = new Product(combinedProductSchema)
         newProduct.save()
         .catch(err => console.log(err))
       })
@@ -108,19 +105,18 @@ const makeAndSaveProduct = (productId) => {
 
 
 
-Product2.find({'product_id': 1})
-.then((res) => {
-  console.log('saved item', res[0]['features'])
-})
+// Product.find({'id': 1})
+// .then((res) => {
+//   console.log('saved item', res[0]['features'])
+// })
+// .catch(err => console.log(err))
 
 
 //ADD PRODUCT FILE TO DB
   //ONLY NEED TO RUN ONCE
-const addProductToDatabase = (products) => {
-  Product.insertMany(products)
-  .then((docs) => {
-    console.log('Successfully Added to Mongo')
-  }).catch((err) => {
+const addProductsToDatabase = (products) => {
+  BasicProduct.insertMany(products)
+  .catch((err) => {
     throw(err)
   })
 }
@@ -134,34 +130,10 @@ const addProductToDatabase = (products) => {
 //   })
 // }
 
-module.exports.addProductToDatabase = addProductToDatabase;
+module.exports.addProductsToDatabase = addProductsToDatabase;
 // module.exports.addPhotoToDatabase = addPhotoToDatabase;
-// module.exports.getProduct = getProduct;
-module.exports.makeAndSaveProduct = makeAndSaveProduct;
+module.exports.joinProductAndFeatures = joinProductAndFeatures;
 
-
-//FIRST ATTEMPT AT JOINING DATA
-
-// const getProduct = (productId) => {
-//   Product.find({'id': productId})
-//   .then((product) => {
-//     let productObject = product[0];
-//     productFeatures = [];
-//     Feature.find({'product_id': productId})
-//       .then((featuresArray) => {
-//         featuresArray.forEach((feature) => {
-//           productObject.features.push({
-//             'feature' : feature.feature,
-//             'value': feature.value});
-//         })
-
-//         console.log('full object with features', Object.keys(productObject))
-//       })
-//         .then()
-//       .catch(err => console.log(err))
-//   })
-//   .catch(err => console.log(err))
-// }
 
 
 

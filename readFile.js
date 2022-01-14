@@ -35,24 +35,27 @@ const addProducts = (csvFile) => {
       }
 
     })
-     db.addProductToDatabase(products)
+     db.addProductsToDatabase(products)
   });
 }
 
+//TO ADD PRODUCTS FROM CSV TO DB 1MM ITEMS
+// addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
 
-// addProducts('/Users/alexanderhuerta/hr/sdc/Products-API-Alex/products/2.csv')
-// db.makeAndSaveProduct(1)
+//TO
+// db.joinProductAndFeatures(1)
+
+// const numberOfProducts = 1000010;
+
+// 1000011
+// 1
 
 
-for(let i = 0; i < 8; i++) {
-  db.makeAndSaveProduct(i)
+for(let i = 1; i <100000 ; i++) {
+
+  db.joinProductAndFeatures(i)
 }
-
-
-
-
-
-
+console.log('done with 1,000,011')
 
 
 
