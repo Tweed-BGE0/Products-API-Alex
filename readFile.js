@@ -90,5 +90,4 @@ const addPhotos = (csvFile) => {
 // addPhotos('/Users/alexanderhuerta/hr/sdc/Products-API-Alex/photos/2.csv')
 
 
-// db.getProduct(1);
 db.makeAndSaveProduct(1)

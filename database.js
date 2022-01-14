@@ -12,7 +12,10 @@ const product2Schema = new mongoose.Schema({
   description: String,
   category: String,
   default_price: String,
-  features: Array
+  features: [{ feature: String, value: String }]
+
+  // features: Array
+  // features: {type: Array, "default": []}
 });
 
 const productSchema = new mongoose.Schema({
@@ -66,11 +69,7 @@ const Sku = mongoose.model('Sku', skuSchema)
 const RelatedItem = mongoose.model('RelatedItem', relatedItemSchema)
 
 
-const addProd = (obj) => {
-  Product2.insert(obj)
-    .then(() => console.log('should be saved'))
-    .catch(err => console.log(err))
-}
+
 
 const makeAndSaveProduct = (productId) => {
   Product.find({'id': productId})
@@ -86,7 +85,6 @@ const makeAndSaveProduct = (productId) => {
             'feature' : feature.feature,
             'value': feature.value});
         })
-
         let combinedProductSchema = {
           id: productObject.id,
           name: productObject.name,
@@ -96,7 +94,9 @@ const makeAndSaveProduct = (productId) => {
           features: productFeatures
         }
         console.log(combinedProductSchema)
-        addProd(combinedProductSchema)
+        let newProduct = new Product2(combinedProductSchema)
+        newProduct.save()
+        .catch(err => console.log(err))
       })
       .catch(err => console.log(err))
   })
