@@ -1,5 +1,3 @@
-//DATABASE ETL FILE
-
 const mongoose = require('mongoose');
 main().catch(err => console.log(err));
 async function main() {
@@ -15,7 +13,6 @@ const ProductSchema = new mongoose.Schema({
   category: String,
   default_price: String,
   features: Array
-  // features: [{ feature: String, value: String }]
 });
 const BasicProductSchema = new mongoose.Schema({
   id: Number,
@@ -51,7 +48,7 @@ const skuSchema = new mongoose.Schema({
   size: String,
   quantity: Number
 });
-const relatedItemSchema = new mongoose.Schema({
+const relatedSchema = new mongoose.Schema({
   id: Number,
   product_id: Number,
   related_product_id: Number
@@ -61,131 +58,37 @@ const relatedItemSchema = new mongoose.Schema({
 const Product = mongoose.model('Product', ProductSchema)
 const BasicProduct = mongoose.model('BasicProduct', BasicProductSchema)
 const Feature = mongoose.model('Feature', featureSchema)
-
 const Style = mongoose.model('Style', styleSchema)
 const Photo = mongoose.model('Photo', photoSchema)
 const Sku = mongoose.model('Sku', skuSchema)
+const Related = mongoose.model('Related', relatedSchema)
 
-const RelatedItem = mongoose.model('RelatedItem', relatedItemSchema)
-
-
-//QUERY PRODUCT AND FEATURE COLLECTION
-  //COMBINE TO FORMAT FINAL_PRODUCT OBJECT
-    //ADD TO 3RD COLLECTION
-      //DROP PRODUCT AND FEATURE COLLECTIONS
-const joinProductAndFeatures = (productId) => {
-  BasicProduct.find({'id': productId})
-  .then((product) => {
-    let productObject = product[0];
-    productFeatures = [];
-    Feature.find({'product_id': productId})
-      .then((featuresArray) => {
-        featuresArray.forEach((feature) => {
-          productFeatures.push({
-            'feature' : feature.feature,
-            'value': feature.value});
-        })
-        let combinedProductSchema = {
-          id: productObject.id,
-          name: productObject.name,
-          slogan: productObject.slogan,
-          description: productObject.description,
-          category: productObject.category,
-          default_price: productObject.default_price,
-          features: productFeatures
-        }
-        let newProduct = new Product(combinedProductSchema)
-        newProduct.save()
-        .catch(err => console.log(err))
-      })
-      .catch(err => console.log(err))
-  })
-  .catch(err => console.log(err))
+// DATABASE QUERIES
+const getAllProducts = (page = 1, count = 5) => {
+  //TODO function do populate low and high value based on input count and page
+  let lowVal = 1;
+  let highVal = 5;
+  return BasicProduct.find({id: {$gt: lowVal, $lt: highVal} });
+  .then(products =>  products)
+  .catch(err => err)
+}
+const getProductById = (productId) => {
+  return Product.find({'id': productId})
+  .then(product =>  product)
+  .catch(err => err)
+}
+const getStylesById = (productId) => {
+  return Style.find({'product_id': productId})
+  .then(relatedIds =>  relatedIds)
+  .catch(err => err)
+}
+const getRelatedById = (productId) => {
+  return Related.find({'product_id': productId})
+  .then(styles =>  console.log(styles))
+  .catch(err => err)
 }
 
-
-
-// Product.find({'id': 1})
-// .then((res) => {
-//   console.log('saved item', res[0]['features'])
-// })
-// .catch(err => console.log(err))
-
-
-//ADD PRODUCT FILE TO DB
-  //ONLY NEED TO RUN ONCE
-const addProductsToDatabase = (products) => {
-  BasicProduct.insertMany(products)
-  .catch((err) => {
-    throw(err)
-  })
-}
-
-// const addPhotoToDatabase = (photos) => {
-//   Photo.insertMany(photos)
-//   .then((docs) => {
-//     console.log('Successfully Added to Mongo')
-//   }).catch((err) => {
-//     throw(err)
-//   })
-// }
-
-module.exports.addProductsToDatabase = addProductsToDatabase;
-// module.exports.addPhotoToDatabase = addPhotoToDatabase;
-module.exports.joinProductAndFeatures = joinProductAndFeatures;
-
-
-
-
-//DATA BASE QUERIES
-
-// Style.find({'product_id': 1})
-//   .then((stylesArray) => {
-//     stylesArray.forEach((styleObject) => {
-//     })
-//     console.log('STYLES', stylesArray)})
-//   .catch(err => console.log(err))
-
-// Sku.find().limit(2)
-//   .then(data => console.log('sku'))
-//   .catch(err => console.log(err))
-
-// RelatedItem.find().limit(2)
-//   .then(data => console.log('? related--', data))
-//   .catch(err => console.log(err))
-
-// Photo.find().limit(2)
-// .then(data => console.log('Photo'))
-// .catch(err => console.log(err))
-
-
-
-
-//AGGREGATION FUNCTIONS FOR THE MONGO INSTANCE TERMINAL
-
-
-// db.products.aggregate([{
-//   $lookup: {
-//           from: "features",
-//           localField: "id",
-//           foreignField: "id",
-//           let: {
-//             feature: "$feature",
-//             value: "$value"
-//           }
-//           as: "copies_sold"
-//       },
-//   $merge : { into : "newCollection" }
-// }])
-
-// db.products.aggregate([
-//   {
-//   $lookup: {
-//           from: "features",
-//           localField: "id",
-//           foreignField: "product_id",
-//           as: "features"
-//   }
-//   $merge : { into : "newCollection" }
-//   }
-// ])
+module.exports.getAllProducts = getAllProducts;
+module.exports.getProductById = getProductById;
+module.exports.getStylesById = getStylesById;
+module.exports.getRelatedById = getRelatedById;

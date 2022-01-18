@@ -1,42 +1,66 @@
 const express = require('express')
 const app = express()
-const port = 3070
+const port = 3090
 const db = require('./database.js')
 
-
-// REQUEST FOR PRODUCTS
-  //PARAMS
-   // PAGE integer	Selects the page of results to return. Default 1.
-   // COUNT integer	Specifies how many results per page to return. Default 5.
-app.get('/products', (req, res) => {
-  res.send('/200 -SEND ENTIRE BASICPRODUCT COLLECTION')
+app.get('/', (req, res) => {
+  res.send('Please visit a valid endpoint')
   //HANDLE ERRORS? 300, 400, 500
 })
 
 
+app.get('/products', (req, res) => {
+  console.log('request recieved for /products')
+db.getAllProducts(page, count)
+  .then((allProducts) => {
+    console.log('great success - ')
+    res.send(allProducts)
+  })
+  .catch((err) => {
+    res.status(400).json({error: err})
+  })
+})
 
 
-//REQUEST FOR PRODUCT INFORMATION
-  //PARAMS -REQUREED-  PRODUCT ID (PRODUCTS COLLECTION)
 app.get('/products/:product_id', (req, res) => {
-  res.send('200-SEND DOCUMENT FROM PRODUCT COLLECTION THAT MATCHES ID')
-    //HANDLE ERRORS 300, 400, 500
-
+  console.log('request recieved for product by id')
+  let productId = req.params.product_id;
+  db.getProductById(productId)
+    .then((product) => {
+      console.log('great success - ')
+      res.send(product)
+    })
+    .catch((err) => {
+      res.status(400).json({error: err})
+    })
 })
 
 app.get('/products/:product_id/styles', (req, res) => {
-  res.send('200- SEND DOCUMENT FROM X COLLECTION THAT MATCHES ID')
-      //HANDLE ERRORS 300, 400, 500
+  console.log('request recieved for styles')
+  let productId = req.params.product_id;
+  db.getStylesById(productId)
+    .then((styles) => {
+      console.log('great success - ')
+      res.send(styles)
+    })
+    .catch((err) => {
+      res.status(400).json({error: err})
+    })
 
 })
 
 app.get('/products/:product_id/related', (req, res) => {
-  res.send('200- SEND DOCUMENT FROM RELATED COLLECTION THAT MATCHES ID')
-  //HANDLE ERRORS 300, 400, 500
+  console.log('request recieved for related products')
+  let productId = req.params.product_id;
+  db.getRelatedById(productId)
+    .then((relatedIds) => {
+      console.log('great success - ', relatedIds)
+      res.send(relatedIds)
+    })
+    .catch((err) => {
+      res.status(400).json({error: err})
+    })
 })
-
-
-
 
 
 app.listen(port, () => {
