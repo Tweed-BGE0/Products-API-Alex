@@ -101,7 +101,7 @@ const addProducts = (csvFile) => {
 }
 
 // TO ADD PRODUCTS FROM CSV TO DB 1MM ITEMS
-addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
+// addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
 
 //TO
 // db.joinProductAndFeatures(1)
@@ -110,6 +110,8 @@ addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
 // 1
 
 // for(let i = 1; i <10 ; i++) {
+//   addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
+
 //   db.joinProductAndFeatures(i)
 // }
 // console.log('done with 1,000,011')

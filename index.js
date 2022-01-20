@@ -14,7 +14,7 @@ app.get('/products', (req, res) => {
 //accept page, count eventually
 db.getAllProducts()
   .then((allProducts) => {
-    console.log('great success - ')
+    console.log('great success allProducts- ', allProducts)
     res.send(allProducts)
   })
   .catch((err) => {
@@ -69,3 +69,4 @@ app.get('/products/:product_id/related', (req, res) => {
 app.listen(port, () => {
   console.log(`Listening on ${port}`)
 })
+
