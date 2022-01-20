@@ -68,7 +68,7 @@ const getAllProducts = (page = 1, count = 5) => {
   //TODO function do populate low and high value based on input count and page
   let lowVal = 1;
   let highVal = 5;
-  return BasicProduct.find({id: {$gt: lowVal, $lt: highVal} });
+  return BasicProduct.find({id: {$gt: lowVal, $lt: highVal} })
   .then(products =>  products)
   .catch(err => err)
 }

@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3090
+const port = 3070
 const db = require('./database.js')
 
 app.get('/', (req, res) => {
@@ -10,8 +10,9 @@ app.get('/', (req, res) => {
 
 
 app.get('/products', (req, res) => {
-  console.log('request recieved for /products')
-db.getAllProducts(page, count)
+  console.log(req.params)
+//accept page, count eventually
+db.getAllProducts()
   .then((allProducts) => {
     console.log('great success - ')
     res.send(allProducts)
@@ -19,11 +20,13 @@ db.getAllProducts(page, count)
   .catch((err) => {
     res.status(400).json({error: err})
   })
+
 })
 
 
 app.get('/products/:product_id', (req, res) => {
-  console.log('request recieved for product by id')
+  console.log('request object', req.params)
+
   let productId = req.params.product_id;
   db.getProductById(productId)
     .then((product) => {
