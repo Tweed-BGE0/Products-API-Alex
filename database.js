@@ -48,7 +48,7 @@ const skuSchema = new mongoose.Schema({
   size: String,
   quantity: Number
 });
-const relatedSchema = new mongoose.Schema({
+const relatedProductsSchema = new mongoose.Schema({
   id: Number,
   product_id: Number,
   related_product_id: Number
@@ -61,8 +61,100 @@ const Feature = mongoose.model('Feature', featureSchema)
 const Style = mongoose.model('Style', styleSchema)
 const Photo = mongoose.model('Photo', photoSchema)
 const Sku = mongoose.model('Sku', skuSchema)
-const Related = mongoose.model('Related', relatedSchema)
+const RelatedProducts = mongoose.model('RelatedProducts', relatedProductsSchema)
 
+const p = [
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1544441892-794166f1e3be?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1544441892-794166f1e3be?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1514590734052-344a18719611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1514590734052-344a18719611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1555274175-6cbf6f3b137b?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1555274175-6cbf6f3b137b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1447879027584-9d17c2ca0333?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1447879027584-9d17c2ca0333?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1422728221357-57980993ea99?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1422728221357-57980993ea99?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1100&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1488778578932-0f84d315fcae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1488778578932-0f84d315fcae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=658&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1527431016-15eb83515018?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1527431016-15eb83515018?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1100&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1534550017194-5df79ed78967?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1534550017194-5df79ed78967?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1525896650794-60ad4ec40d0e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1525896650794-60ad4ec40d0e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+  },
+  {
+      "thumbnail_url": "https://images.unsplash.com/photo-1560857792-215f9e3534ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
+      "url": "https://images.unsplash.com/photo-1560857792-215f9e3534ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
+  }];
+
+  let sk =  {
+    "1281158": {
+        "quantity": 14,
+        "size": "7"
+    },
+    "1281159": {
+        "quantity": 25,
+        "size": "7.5"
+    },
+    "1281160": {
+        "quantity": 9,
+        "size": "8"
+    },
+    "1281161": {
+        "quantity": 2,
+        "size": "8.5"
+    },
+    "1281162": {
+        "quantity": 18,
+        "size": "9"
+    },
+    "1281163": {
+        "quantity": 12,
+        "size": "9.5"
+    },
+    "1281164": {
+        "quantity": 10,
+        "size": "10"
+    },
+    "1281165": {
+        "quantity": 18,
+        "size": "10.5"
+    },
+    "1281166": {
+        "quantity": 11,
+        "size": "11"
+    },
+    "1281167": {
+        "quantity": 35,
+        "size": "11.5"
+    },
+    "1281168": {
+        "quantity": 25,
+        "size": "12"
+    }
+ }
 
 
 // DATABASE QUERIES
@@ -74,11 +166,13 @@ const getAllProducts = (page = 1, count = 5) => {
   .then(products =>  products)
   .catch(err => err)
 }
+
 const getProductById = (productId) => {
   return BasicProduct.find({'id': productId})
   .then(product =>  product)
   .catch(err => err)
 }
+
 
 const getStylesById = (productId) => {
   return Style.find({'product_id': productId})
@@ -95,22 +189,24 @@ const getStylesById = (productId) => {
         original_price: style. original_price,
         sale_price: style.sale_price,
         default: true,
-        photos: [],
+        photos: p,
         skus: {}
       }
 
-    Sku.find({style_id: style.id})
-      .then((skusArray) => {
-        skusArray.forEach((sku) => {
-          let skuId = sku.id
-          formattedStyleObject.skus.skuId = {
-            'quantity': sku.quantity,
-            'size': sku.size
-          }
-        })
-      })
-      .catch(err => err)
+    // Sku.find({style_id: style.id})
+    //   .then((skusArray) => {
+    //     skusArray.forEach((sku) => {
 
+    //       formattedStyleObject.skus[PartseInt(sku.id)] =  {
+    //         'quantity': sku.quantity,
+    //         'size': sku.size
+    //       }
+
+    //     })
+    //     console.log('skus',formattedStyleObject.skus)
+    //   })
+    //   .catch(err => err)
+      formattedStyleObject.skus = sk
       responseToServer.results.push(formattedStyleObject)
     })
 
@@ -121,15 +217,20 @@ const getStylesById = (productId) => {
 
 // Photo.find({styleId: style.id})
 // .then((photosArray) => {
-
 // })
 
 
 
-
 const getRelatedById = (productId) => {
-  return Related.find({'product_id': productId})
-  .then(styles =>  console.log(styles))
+  let relatedArray = [];
+  return RelatedProducts.find({product_id: productId})
+  .then((products) =>  {
+    products.forEach((prod) => {
+      console.log(prod)
+      relatedArray.push(prod.related_product_id)
+    })
+    return relatedArray
+  })
   .catch(err => err)
 }
 
