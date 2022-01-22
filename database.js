@@ -4,8 +4,6 @@ async function main() {
   await mongoose.connect('mongodb://localhost:27017/productOverview');
 }
 
-//SCHEMAS
-
 const ProductSchema = new mongoose.Schema({
   id: Number,
   name: String,
@@ -54,7 +52,6 @@ const relatedProductsSchema = new mongoose.Schema({
   related_product_id: Number
 });
 
-//MODELS
 const Product = mongoose.model('Product', ProductSchema)
 const BasicProduct = mongoose.model('BasicProduct', BasicProductSchema)
 const Feature = mongoose.model('Feature', featureSchema)
@@ -157,7 +154,6 @@ const p = [
  }
 
 
-// DATABASE QUERIES
 const getAllProducts = (page = 1, count = 5) => {
   let lowVal = 3;
   let highVal = 5;
@@ -179,7 +175,6 @@ const getStylesById = (productId) => {
       "product_id": productId,
       "results": []
     };
-
     arrayOfStyleObjects.forEach((style) => {
       let formattedStyleObject = {
         style_id: style.id,
@@ -191,40 +186,19 @@ const getStylesById = (productId) => {
         skus: {}
       }
 
-    // Sku.find({style_id: style.id})
-    //   .then((skusArray) => {
-    //     skusArray.forEach((sku) => {
-
-    //       formattedStyleObject.skus[PartseInt(sku.id)] =  {
-    //         'quantity': sku.quantity,
-    //         'size': sku.size
-    //       }
-
-    //     })
-    //     console.log('skus',formattedStyleObject.skus)
-    //   })
-    //   .catch(err => err)
       formattedStyleObject.skus = sk
       responseToServer.results.push(formattedStyleObject)
     })
-
     return responseToServer;
   })
   .catch(err => err)
 }
-
-// Photo.find({styleId: style.id})
-// .then((photosArray) => {
-// })
-
-
 
 const getRelatedById = (productId) => {
   let relatedArray = [];
   return RelatedProducts.find({product_id: productId})
   .then((products) =>  {
     products.forEach((prod) => {
-      console.log(prod)
       relatedArray.push(prod.related_product_id)
     })
     return relatedArray
@@ -242,9 +216,4 @@ module.exports.addProductsToDatabase = (products) => {
     throw(err)
   })
 }
-
-
-
-
-
 

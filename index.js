@@ -5,12 +5,9 @@ const db = require('./database.js')
 
 app.get('/', (req, res) => {
   res.send('Please visit a valid endpoint')
-  //HANDLE ERRORS? 300, 400, 500
 })
 
-
 app.get('/products', (req, res) => {
-//accept page, count eventually
 db.getAllProducts()
   .then((allProducts) => {
     res.send(allProducts)
@@ -18,9 +15,7 @@ db.getAllProducts()
   .catch((err) => {
     res.status(400).json({error: err})
   })
-
 })
-
 
 app.get('/products/:product_id', (req, res) => {
   let productId = req.params.product_id;
@@ -42,7 +37,6 @@ app.get('/products/:product_id/styles', (req, res) => {
     .catch((err) => {
       res.status(400).json({error: err})
     })
-
 })
 
 app.get('/products/:product_id/related', (req, res) => {
@@ -55,7 +49,6 @@ app.get('/products/:product_id/related', (req, res) => {
       res.status(400).json({error: err})
     })
 })
-
 
 app.listen(port, () => {
   console.log(`Listening on ${port}`)
