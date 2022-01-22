@@ -159,7 +159,6 @@ const p = [
 
 // DATABASE QUERIES
 const getAllProducts = (page = 1, count = 5) => {
-  //TODO function do populate low and high value based on input count and page
   let lowVal = 3;
   let highVal = 5;
   return Product.find({id: {$gt: lowVal, $lt: highVal} })
@@ -172,7 +171,6 @@ const getProductById = (productId) => {
   .then(product =>  product)
   .catch(err => err)
 }
-
 
 const getStylesById = (productId) => {
   return Style.find({'product_id': productId})

@@ -6,8 +6,6 @@ const removeQuotes = (string) => { return string.replace(/"+/g, '')}
 
 
 
-
-
 // FORMAT PHOTO FILE AND ADD TO DB
 const addPhotos = (csvFile) => {
   fs.readFile(csvFile, 'utf8', function (err,data) {
@@ -100,7 +98,7 @@ const addProducts = (csvFile) => {
   });
 }
 
-// TO ADD PRODUCTS FROM CSV TO DB 1MM ITEMS
+// TO ADD PRODUCTS FROM CSV TO DB
 // addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
 
 //TO
@@ -109,9 +107,3 @@ const addProducts = (csvFile) => {
 // 1000011
 // 1
 
-// for(let i = 1; i <10 ; i++) {
-//   addProducts('/Users/alexanderhuerta/hr/sdc/data/product.csv')
-
-//   db.joinProductAndFeatures(i)
-// }
-// console.log('done with 1,000,011')
