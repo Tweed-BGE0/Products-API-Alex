@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/Tweed-BGE0/Products-API-Alex#readme",
   "dependencies": {
-    "csv-parser": "^3.0.0",
     "express": "^4.17.2",
     "mongoose": "^6.1.6"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
   }
 }
