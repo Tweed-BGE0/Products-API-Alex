@@ -4,14 +4,6 @@ async function main() {
   await mongoose.connect('mongodb://localhost:27017/productOverview');
 }
 
-const ProductSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
-  slogan: String,
-  description: String,
-  category: String,
-  default_price: String
-});
 const BasicProductSchema = new mongoose.Schema({
   id: Number,
   name: String,
@@ -20,13 +12,27 @@ const BasicProductSchema = new mongoose.Schema({
   category: String,
   default_price: String
 });
-const featureSchema = new mongoose.Schema({
+
+
+
+
+const ProductSchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  slogan: String,
+  description: String,
+  category: String,
+  default_price: String
+});
+const FeatureSchema = new mongoose.Schema({
   id: Number,
   product_id: Number,
   feature: String,
   value: String
 });
-const styleSchema = new mongoose.Schema({
+
+
+const StyleSchema = new mongoose.Schema({
   id: Number,
   product_id: Number,
   name: String,
@@ -34,19 +40,21 @@ const styleSchema = new mongoose.Schema({
   original_price: Number,
   default_styledrop: Number
 });
-const photoSchema = new mongoose.Schema({
+const PhotoSchema = new mongoose.Schema({
   id: Number,
   style_id: Number,
   url: String,
   thumbnail_url: String
 })
-const skuSchema = new mongoose.Schema({
+const SkuSchema = new mongoose.Schema({
   id: Number,
   style_id: Number,
   size: String,
   quantity: Number
 });
-const relatedProductsSchema = new mongoose.Schema({
+
+
+const RelatedProductsSchema = new mongoose.Schema({
   id: Number,
   product_id: Number,
   related_product_id: Number
@@ -54,13 +62,13 @@ const relatedProductsSchema = new mongoose.Schema({
 
 const Product = mongoose.model('Product', ProductSchema)
 const BasicProduct = mongoose.model('BasicProduct', BasicProductSchema)
-const Feature = mongoose.model('Feature', featureSchema)
-const Style = mongoose.model('Style', styleSchema)
-const Photo = mongoose.model('Photo', photoSchema)
-const Sku = mongoose.model('Sku', skuSchema)
-const RelatedProducts = mongoose.model('RelatedProducts', relatedProductsSchema)
+const Feature = mongoose.model('Feature', FeatureSchema)
+const Style = mongoose.model('Style', StyleSchema)
+const Photo = mongoose.model('Photo', PhotoSchema)
+const Sku = mongoose.model('Sku', SkuSchema)
+const RelatedProducts = mongoose.model('RelatedProducts', RelatedProductsSchema)
 
-const p = [
+const samplePhotos = [
   {
       "thumbnail_url": "https://images.unsplash.com/photo-1544441892-794166f1e3be?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80",
       "url": "https://images.unsplash.com/photo-1544441892-794166f1e3be?ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
@@ -106,7 +114,7 @@ const p = [
       "url": "https://images.unsplash.com/photo-1560857792-215f9e3534ed?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
   }];
 
-  let sk =  {
+  let sampleSkus =  {
     "1281158": {
         "quantity": 14,
         "size": "7"
@@ -182,11 +190,11 @@ const getStylesById = (productId) => {
         original_price: style. original_price,
         sale_price: style.sale_price,
         default: true,
-        photos: p,
+        photos: samplePhotos,
         skus: {}
       }
 
-      formattedStyleObject.skus = sk
+      formattedStyleObject.skus = sampleSkus
       responseToServer.results.push(formattedStyleObject)
     })
     return responseToServer;
