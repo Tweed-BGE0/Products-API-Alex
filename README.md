@@ -1,11 +1,10 @@
-## RSM Take home
-Backend system for an e-commerce web application with RESTful API.
+## Backend system for an e-commerce web application with RESTful API.
 
 Endpoints served:
-  api/products
-  api/products/product_id
-  api/products/styles
-  api/products/related
+ - api/products
+ - api/products/product_id
+ - api/products/styles
+ - api/products/related
 
  Technologies used:
    MongoDB
